@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #36393e;
+        color: grey;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        
+      }
+      form{ 
+        display: flex;
+        gap: 10px;
+      }
+      form input[type="submit"]{
+        background-color: #7289da;
+        border: none;
+        color: #fff;
+        border-radius: 10px;
+        padding: 5px;
+        width: 100px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .chat {
+        background-color: #1e2124;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .message {
+        margin-bottom: 10px;
+      }
+
+      .user {
+        font-weight: bold;
+      }
+
+      .chat-input {
+        display: flex;
+        margin-top: 20px;
+      }
+
+      .chat-input input {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 10px;
+        background-color: #282b30;
+        color: grey;
+        outline: none;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: #7289da;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #424549;
+      }
+      .search-input {
+        background-color: #282b30;
+        color: grey;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        width: 780px;
+        font-size: 16px;
+      }
+
+      .search-input::placeholder {
+        color: grey;
+      }
+      .Mega {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        align-items: center;
+        flex-direction: row;
+      }
+      .msg_container {
+        width: 600px;
+      }
+      .friends-list {
+        line-height: 10px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+      }
+      .handle_request {
+        padding: 10px;
+      }
+      .btn {
+        color: #fff;
+        margin: 8px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="btn" href="{% url 'logout' %}">Logout</a>
+    <div class="handle_request">
+      {% for friend_request in friend_requests %}
+        <p>Total Friend Requests: {{ amount }}</p>
+        <a style="color: #fff" href="{% url 'add_back' pk=friend_request.sender.username %}">@{{ friend_request.sender.username }}</a>
+      {% endfor %}
+    </div>
+
+    <div class="container">
+      <form action="" method="post">
+        
+        {% csrf_token %}
+        <input
+        type="text"
+        class="search-input"
+        placeholder="Search for user here"
+        name="search"
+      />
+      <input type="submit" value="search">
+      </form>
+      <div class="Mega">
+        <div class="friends-list">
+          {% for friend in friends %}
+          <h4>{{friend.user.username}}</h4>
+          <p style="width: 260px;">Last seen: {{friend.user.last_login}}</p>
+        </div>
+        {%endfor%}
+
+        <div class="msg_container">
+          <div class="header">
+            <h1>Chat Site</h1>
+          </div>
+          {% for friend in friends %}
+
+          <div class="chat">
+            <div class="chat-messages">
+              <div class="message">
+                <div class="user">{{ friend.user.username }}</div>
+                <div class="text">Hey, how are you?</div>
+              </div>
+              <!-- More chat messages here -->
+            </div>
+            <div class="chat-input">
+              <a class="btn" href="{% url 'msg' pk=friend.user.username %}">Replay</a>
+            </div>
+          </div>
+
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

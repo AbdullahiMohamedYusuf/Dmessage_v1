@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #36393e;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .message-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .message-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: #282b30;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .message-item.sent {
+      align-items: flex-end;
+    }
+
+    .message-item .user {
+      font-weight: bold;
+    }
+
+    .message-item .content {
+      margin-top: 5px;
+    }
+
+    .message-item .timestamp {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .message-input {
+      display: flex;
+      margin-top: 20px;
+    }
+
+    .message-input input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+
+    .message-input button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      background-color: #428bca;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <!-- Your head content -->
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>Message Site</h1>
+        </div>
+        <ul class="message-list">
+          {% for message in messages %}
+            <li class="message-item {% if message.user == request.user %}sent{% endif %}">
+              <div class="user">{{ message.user.username }}</div>
+              <div class="content">{{ message.message }}</div>
+              <div class="timestamp">{{ message.created }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+        <form class="message-input" method="POST">
+          {% csrf_token %}
+          <input name="msg" type="text" placeholder="Type your message">
+          <input type="submit" value="Send">
+        </form>
+      </div>
+    </body>
+    </html>
+    
+</body>
+</html>
